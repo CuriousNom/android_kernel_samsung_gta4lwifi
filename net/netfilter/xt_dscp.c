@@ -12,10 +12,8 @@
 #include <linux/ip.h>
 #include <linux/ipv6.h>
 #include <net/dsfield.h>
-
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_dscp.h>
-
 MODULE_AUTHOR("Harald Welte <laforge@netfilter.org>");
 MODULE_DESCRIPTION("Xtables: DSCP/TOS field match");
 MODULE_LICENSE("GPL");
@@ -23,7 +21,6 @@ MODULE_ALIAS("ipt_dscp");
 MODULE_ALIAS("ip6t_dscp");
 MODULE_ALIAS("ipt_tos");
 MODULE_ALIAS("ip6t_tos");
-
 static bool
 dscp_mt(const struct sk_buff *skb, struct xt_action_param *par)
 {
@@ -32,7 +29,6 @@ dscp_mt(const struct sk_buff *skb, struct xt_action_param *par)
 
 	return (dscp == info->dscp) ^ !!info->invert;
 }
-
 static bool
 dscp_mt6(const struct sk_buff *skb, struct xt_action_param *par)
 {
@@ -41,7 +37,6 @@ dscp_mt6(const struct sk_buff *skb, struct xt_action_param *par)
 
 	return (dscp == info->dscp) ^ !!info->invert;
 }
-
 static int dscp_mt_check(const struct xt_mtchk_param *par)
 {
 	const struct xt_dscp_info *info = par->matchinfo;
@@ -51,7 +46,6 @@ static int dscp_mt_check(const struct xt_mtchk_param *par)
 
 	return 0;
 }
-
 static bool tos_mt(const struct sk_buff *skb, struct xt_action_param *par)
 {
 	const struct xt_tos_match_info *info = par->matchinfo;
@@ -63,7 +57,6 @@ static bool tos_mt(const struct sk_buff *skb, struct xt_action_param *par)
 		return ((ipv6_get_dsfield(ipv6_hdr(skb)) & info->tos_mask) ==
 		       info->tos_value) ^ !!info->invert;
 }
-
 static struct xt_match dscp_mt_reg[] __read_mostly = {
 	{
 		.name		= "dscp",
@@ -98,12 +91,10 @@ static struct xt_match dscp_mt_reg[] __read_mostly = {
 		.me		= THIS_MODULE,
 	},
 };
-
 static int __init dscp_mt_init(void)
 {
 	return xt_register_matches(dscp_mt_reg, ARRAY_SIZE(dscp_mt_reg));
 }
-
 static void __exit dscp_mt_exit(void)
 {
 	xt_unregister_matches(dscp_mt_reg, ARRAY_SIZE(dscp_mt_reg));
